@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SceneScribe (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SceneScribe (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

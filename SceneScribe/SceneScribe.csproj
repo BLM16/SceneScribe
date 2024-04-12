@@ -1,0 +1,97 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>SceneScribe</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <PackageCertificateThumbprint>B014112152D7F394B457060453C9BE8DBDE678A5</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Controls\TopMenuButton.xaml" />
+    <None Remove="EditorPage.xaml" />
+    <None Remove="ShellPage.xaml" />
+    <None Remove="Themes\Colors.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+    <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\PublishPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <!-- 
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="EditorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SceneScribe.Engine\SceneScribe.Engine.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\PublishPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\TopMenuButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Themes\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <!-- 
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+</Project>
