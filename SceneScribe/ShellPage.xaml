@@ -56,8 +56,16 @@
         <!-- Side menu -->
         <StackPanel Grid.Row="1" Grid.Column="0"
                     Background="{ThemeResource SceneScribeMenuPrimaryBG}">
-            <TextBlock Text="Side menu here."
-                       Grid.Row="1" Grid.Column="0" />
+            <TextBlock Grid.Row="1" Grid.Column="0">
+                <LineBreak />
+                <Run>1. Scene</Run><LineBreak />
+                <Run>2. Action</Run><LineBreak />
+                <Run>3. Character</Run><LineBreak />
+                <Run>4. Parenthetical</Run><LineBreak />
+                <Run>5. Dialogue</Run><LineBreak />
+                <Run>6. Directive</Run><LineBreak />
+                <Run>7. Transition</Run><LineBreak />
+            </TextBlock>
         </StackPanel>
 
         <!-- Page content -->

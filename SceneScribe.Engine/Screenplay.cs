@@ -14,21 +14,34 @@ public class Screenplay
     public string Title { get; init; } = "Untitled Screenplay";
 
 	/// <summary>
-	/// The list of pages in the screenplay.
+	/// The list of components in the screenplay.
 	/// </summary>
-    public List<ScreenplayPageContent> Pages { get; init; } = new();
+    public List<ScreenplayComponent> Components { get; init; } = new();
 
 	/// <summary>
 	/// Serializes the screenplay into XML to be saved to a file.
 	/// </summary>
 	/// <returns>An XML document as a string.</returns>
-    public string SerializeToXML()
+    public string ToXML()
     {
 		using var sw = new StringWriter();
-		var xml = new XmlSerializer(typeof(Screenplay));
+		var serializer = new XmlSerializer(typeof(Screenplay));
 
-		xml.Serialize(sw, this);
+		serializer.Serialize(sw, this);
 
 		return sw.ToString();
+	}
+
+	/// <summary>
+	/// Deserializes the screenplay from an XML file.
+	/// </summary>
+	/// <param name="path">The XML document file path to deserialize.</param>
+	/// <returns>A <see cref="Screenplay"/> representing the XML document.</returns>
+	public static Screenplay? FromXML(string path)
+	{
+		using var sw = new StreamReader(path);
+		var serializer = new XmlSerializer(typeof(Screenplay));
+
+		return serializer.Deserialize(sw) as Screenplay;
 	}
 }

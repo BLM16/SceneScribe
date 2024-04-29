@@ -17,7 +17,7 @@ namespace SceneScribe.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			TmpTextBlock.Text = ((Screenplay)e.Parameter).SerializeToXML();
+			TmpTextBlock.Text = ((Screenplay)e.Parameter).ToXML();
 		}
 	}
 }

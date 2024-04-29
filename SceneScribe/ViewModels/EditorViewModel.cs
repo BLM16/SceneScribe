@@ -5,5 +5,5 @@ namespace SceneScribe.ViewModels;
 
 public class EditorViewModel
 {
-	public ObservableCollection<ScreenplayPageContent> Pages { get; set; }
+	public ObservableCollection<ScreenplayComponent> Components { get; set; }
 }

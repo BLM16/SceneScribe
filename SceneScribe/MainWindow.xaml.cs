@@ -11,6 +11,10 @@ namespace SceneScribe
 		public MainWindow()
 		{
 			this.InitializeComponent();
+
+			AppWindow.Title = "Scene Scribe";
+			AppWindow.SetIcon(@"Assets\FeatherAppIcon.ico");
+
 			ShellPage.Navigate(typeof(ShellPage));
 		}
 	}

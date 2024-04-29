@@ -5,6 +5,8 @@ using SceneScribe.Engine;
 using SceneScribe.ViewModels;
 using SceneScribe.Views;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace SceneScribe
 {
@@ -76,159 +78,9 @@ namespace SceneScribe
 				? ElementTheme.Light : ElementTheme.Dark;
 		}
 
-		private readonly Screenplay TestScreenplay = new()
-		{
-			Title = "Example Screenplay",
-			Pages = new()
-			{
-				new ScreenplayPageContent
-				{
-					Components = new ()
-					{
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Directive,
-							Text = "FADE IN:"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.SceneHeading,
-							Text = "EXT. SCARY FOREST - NIGHT"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "It's dark and stormy. AMSHU sits on a rock in a forest, pondering existence contemplatively."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "Enter AARDVARK."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AMSHU"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Ah! What devil is this to disturb my slumber? Cursed thou be'st!"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AARDVARK"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Where once I was't in the company of the horn'ed one, our ways hath parted, ne'er to cross again."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AMSHU"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Thou art a blight on the face of this earth I say. Thine stench offends mine nostrils."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AARDVARK"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Thou art and evermore shall be, a bully to me."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "AARDVARK scuttles off screen in a sulk."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AARDVARK (CONT'D) (O.S.)"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Ere the dawn, thou shalt perish."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Transition,
-							Text = "FADE OUT."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Directive,
-							Text = "FADE IN:"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.SceneHeading,
-							Text = "INT. AMSHU'S BED - NIGHT"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "AMSHU is asleep, soundlessly and peacefully."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "Enter AARDVARK, carrying a needle in his mouth."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Character,
-							Text = "AARDVARK"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Parenthetical,
-							Text = "(Muttering)"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Dialogue,
-							Text = "Thou shalt perish, thou shalt perish. Ere the dawn thou shalt."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "AARDVARK injects AMSHU who promptly dies."
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Transition,
-							Text = "FADE OUT."
-						},
-					}
-				},
-				new ScreenplayPageContent
-				{
-					Components = new()
-					{
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.SceneHeading,
-							Text = "INT. SETTING 2 - DAY"
-						},
-						new ScreenplayComponent
-						{
-							Type = ScreenplayComponentType.Action,
-							Text = "The aardvark scuttles left."
-						},
-					}
-				},
-			}
-		};
+		private static Screenplay TestScreenplay
+			=> Screenplay.FromXML(Path.Combine(
+					Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+					"TestScreenplay.xml"));
 	}
 }
