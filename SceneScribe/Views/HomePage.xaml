@@ -8,5 +8,43 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <TextBlock Text="Home page!" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Frame x:Name="CurrentGroupBrowser"
+               Grid.Row="0" Grid.Column="0" />
+
+        <Grid Padding="45, 20, 45, 30"
+              Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Uid="ButtonOpenOther"
+                    Click="OpenOther_Click"
+                    Grid.Row="0" Grid.Column="0">
+                <SymbolIcon Symbol="OpenFile" />
+            </Button>
+            
+            <Button x:Uid="ButtonNewProject"
+                    Click="NewProject_Click"
+                    Margin="0, 0, 10, 0"
+                    Grid.Row="0" Grid.Column="1">
+                <SymbolIcon Symbol="Add" />
+            </Button>
+            <Button x:Uid="ButtonNewGroup"
+                    Click="NewGroup_Click"
+                    Grid.Row="0" Grid.Column="2">
+                <SymbolIcon Symbol="NewFolder" />
+            </Button>
+        </Grid>
+    </Grid>
 </Page>

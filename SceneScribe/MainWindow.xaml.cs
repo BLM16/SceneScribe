@@ -1,4 +1,6 @@
 using Microsoft.UI.Xaml;
+using SceneScribe.ViewModels;
+using System;
 
 namespace SceneScribe
 {
@@ -14,8 +16,16 @@ namespace SceneScribe
 
 			AppWindow.Title = "Scene Scribe";
 			AppWindow.SetIcon(@"Assets\FeatherAppIcon.ico");
-
-			ShellPage.Navigate(typeof(ShellPage));
 		}
+
+		/// <summary>
+		/// Initializes the window by setting the view model
+		/// and start page for the shell page.
+		/// </summary>
+		/// <param name="vm">The view model for the shell page.</param>
+		/// <param name="pageType">The page to default to.</param>
+		public void Initialize(ShellPageViewModel vm, Type pageType)
+			=> ShellPage.Navigate(typeof(ShellPage),
+				new ShellPage.OnNavigatedToParameter(vm, pageType));
 	}
 }

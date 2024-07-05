@@ -13,13 +13,18 @@
     <PackageCertificateThumbprint>B014112152D7F394B457060453C9BE8DBDE678A5</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
+	
   <ItemGroup>
+    <None Remove="Controls\SingleChildPanel.xaml" />
     <None Remove="Controls\TopMenuButton.xaml" />
     <None Remove="EditorPage.xaml" />
     <None Remove="ShellPage.xaml" />
     <None Remove="Themes\Colors.xaml" />
     <None Remove="Themes\Generic.xaml" />
+    <None Remove="Views\Dialogs\NameOnlyDialog.xaml" />
+    <None Remove="Views\GroupBrowser.xaml" />
     <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\NewProjectDialog.xaml" />
     <None Remove="Views\PublishPage.xaml" />
   </ItemGroup>
 
@@ -32,6 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -46,6 +53,11 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestScreenplay.sscrproj">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="EditorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -54,9 +66,18 @@
     <ProjectReference Include="..\SceneScribe.Engine\SceneScribe.Engine.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="TestScreenplay.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Page Update="Controls\SingleChildPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Dialogs\NameOnlyDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\NewProjectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\GroupBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Themes\Generic.xaml">

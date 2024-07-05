@@ -1,26 +1,26 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using SceneScribe.Engine;
 using SceneScribe.ViewModels;
 using SceneScribe.Views;
 using System;
-using System.IO;
-using System.Reflection;
 
 namespace SceneScribe
 {
 	public sealed partial class ShellPage : Page
 	{
+		/// <summary>
+		/// The type that must be passed as a parameter when navigating to ShellPage.
+		/// </summary>
+		/// <param name="ViewModel">The view model to set.</param>
+		/// <param name="StartPage">The page to navigate to by default.</param>
+		public record OnNavigatedToParameter(ShellPageViewModel ViewModel, Type StartPage);
+
 		public ShellPageViewModel ViewModel { get; private set; }
 
 		public ShellPage()
 		{
 			this.InitializeComponent();
-			ViewModel = new ShellPageViewModel
-			{
-				ActiveScreenplay = TestScreenplay
-			};
 
 			// Register top menu button handlers
 			BtnHome.Click += (sender, e) => SetActiveTab(typeof(HomePage));
@@ -32,8 +32,9 @@ namespace SceneScribe
 		{
 			base.OnNavigatedTo(e);
 
-			// Load the home page initially
-			SetActiveTab(typeof(HomePage));
+			// Load the view model and default page
+			(ViewModel, var page) = e.Parameter as OnNavigatedToParameter;
+			SetActiveTab(page);
 		}
 
 		/// <summary>
@@ -41,7 +42,7 @@ namespace SceneScribe
 		/// </summary>
 		/// <param name="page">The page to set as active.</param>
 		/// <exception cref="ArgumentException">Thrown when the <paramref name="page"/> is not a valid tab.</exception>
-		private void SetActiveTab(Type page)
+		public void SetActiveTab(Type page)
 		{
 			// Make all the buttons inactive (removes the active state from the currently active button)
 			BtnHome.Active = BtnEditor.Active = BtnPublish.Active = false;
@@ -50,23 +51,44 @@ namespace SceneScribe
 			if (page == typeof(HomePage))
 			{
 				BtnHome.Active = true;
-				ContentFrame.Navigate(typeof(HomePage));
+				var vm = new HomePageViewModel
+				{
+					ShellPage = this,
+					ActiveGroupPath = new(new[] { ViewModel.Config.GroupBrowserRoot })
+				};
+				ContentFrame.Navigate(typeof(HomePage), vm);
 			}
 			else if (page == typeof(EditorPage))
 			{
 				BtnEditor.Active= true;
-				ContentFrame.Navigate(typeof(EditorPage), ViewModel.ActiveScreenplay);
+				var vm = new EditorPageViewModel
+				{
+					ShellPage = this,
+					ActiveScreenplay = ViewModel.ActiveScreenplay
+				};
+				ContentFrame.Navigate(typeof(EditorPage), vm);
 			}
 			else if (page == typeof(PublishPage))
 			{
 				BtnPublish.Active = true;
-				ContentFrame.Navigate(typeof(PublishPage), ViewModel.ActiveScreenplay);
+				var vm = new PublishPageViewModel
+				{
+					ShellPage = this,
+					ActiveScreenplay = ViewModel.ActiveScreenplay
+				};
+				ContentFrame.Navigate(typeof(PublishPage), vm);
 			}
 			else
 			{
 				throw new ArgumentException($"{nameof(page)} is not a valid page.");
 			}
 		}
+
+		/// <summary>
+		/// Sets the navbar content to a given <see cref="UIElement"/>.
+		/// </summary>
+		/// <param name="content">The element to render in the navbar.</param>
+		public void SetNavbarCenterContent(UIElement content) => NavbarCenterContent.Content = content;
 
 		/// <summary>
 		/// The callback for pressing the theme button.
@@ -77,10 +99,5 @@ namespace SceneScribe
 			this.RequestedTheme = RequestedTheme == ElementTheme.Dark
 				? ElementTheme.Light : ElementTheme.Dark;
 		}
-
-		private static Screenplay TestScreenplay
-			=> Screenplay.FromXML(Path.Combine(
-					Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-					"TestScreenplay.xml"));
 	}
 }

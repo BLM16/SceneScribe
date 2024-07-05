@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using SceneScribe.Engine;
+using SceneScribe.ViewModels;
 
 namespace SceneScribe.Views
 {
@@ -9,6 +9,8 @@ namespace SceneScribe.Views
 	/// </summary>
 	public sealed partial class PublishPage : Page
 	{
+		public PublishPageViewModel ViewModel { get; private set; }
+
 		public PublishPage()
 		{
 			this.InitializeComponent();
@@ -17,7 +19,8 @@ namespace SceneScribe.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			TmpTextBlock.Text = ((Screenplay)e.Parameter).ToXML();
+			ViewModel = e.Parameter as PublishPageViewModel;
+			TmpTextBlock.Text = ViewModel.ActiveScreenplay.ToXML();
 		}
 	}
 }

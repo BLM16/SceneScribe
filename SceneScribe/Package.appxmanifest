@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="e086f4fc-0c22-4f0d-833b-0daf81b3d473"
+    Name="SceneScribe"
     Publisher="CN=BLM16"
     Version="1.0.0.0" />
 
@@ -35,7 +35,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Scene Scribe"
-        Description="Scene Scribe is a free screenwriting tool."
+        Description="ms-resource:AppDescription"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -43,6 +43,19 @@
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="scenescribescreenplay" DesiredView="default">
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/vnd.scenescribe.screenplay+xml">.sscrproj</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DisplayName>ms-resource:AppDeclarations/FileTypes/scenescribescreenplay</uap:DisplayName>
+            <uap:EditFlags OpenIsSafe="true"/>
+            <uap:InfoTip>ms-resource:AppDeclarations/FileTypes/scenescribescreenplay</uap:InfoTip>
+            <uap:Logo>Assets\SceneScribeFeather.png</uap:Logo>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
 

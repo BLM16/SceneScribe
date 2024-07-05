@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using SceneScribe.Engine;
 using SceneScribe.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace SceneScribe.Views
 {
@@ -14,7 +13,7 @@ namespace SceneScribe.Views
 	/// </summary>
 	public sealed partial class EditorPage : Page
 	{
-		public EditorViewModel ViewModel { get; private set; }
+		public EditorPageViewModel ViewModel { get; private set; }
 
 		private const double canvasWidth = 850;
 		private const double canvasHeight = 1100;
@@ -28,17 +27,14 @@ namespace SceneScribe.Views
 		public EditorPage()
 		{
 			this.InitializeComponent();
-			ViewModel = new EditorViewModel
-			{
-				Components = new()
-			};
-			ViewModel.Components.CollectionChanged += (sender, e) => RenderPages();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			ViewModel.Components = new ObservableCollection<ScreenplayComponent>((e.Parameter as Screenplay).Components);
+			ViewModel = e.Parameter as EditorPageViewModel;
+			ViewModel.ActiveScreenplay.Components.CollectionChanged += (sender, e) => RenderPages();
+			ViewModel.ShellPage.SetNavbarCenterContent(new TextBlock { Text = ViewModel.ActiveScreenplay.Title });
 			RenderPages();
 		}
 
@@ -51,7 +47,8 @@ namespace SceneScribe.Views
 			var sceneCount = 0;
 			var nextComponentIndex = 0;
 
-			while (nextComponentIndex < ViewModel.Components.Count)
+			// Do-While ensures a blank page is rendered if there are no components
+			do
 			{
 				var pageElement = RenderPage(ref pageNumber, ref sceneCount, ref nextComponentIndex);
 
@@ -63,6 +60,7 @@ namespace SceneScribe.Views
 
 				DocumentListView.Items.Add(new ListViewItem { Content = stack });
 			}
+			while (nextComponentIndex < ViewModel.ActiveScreenplay.Components.Count);
 		}
 
 		/// <summary>
@@ -102,10 +100,10 @@ namespace SceneScribe.Views
 			pageElement.Children.Add(pageNumElem);
 			currentPageHeight += 50;
 
-			while (currentPageHeight < canvasHeight && nextComponentIndex < ViewModel.Components.Count)
+			while (currentPageHeight < canvasHeight && nextComponentIndex < ViewModel.ActiveScreenplay.Components.Count)
 			{
 				// Post-increment nextComponentIndex ref to always point to the next component
-				var component = ViewModel.Components[nextComponentIndex++];
+				var component = ViewModel.ActiveScreenplay.Components[nextComponentIndex++];
 
 				var spacingTop = new Border { Height = component.MarginTop };
 				var spacingBtm = new Border { Height = component.MarginBottom };
@@ -117,6 +115,7 @@ namespace SceneScribe.Views
 					MaxWidth = canvasWidth - component.MarginLeft - component.MarginRight,
 					TextAlignment = component.IsRightAligned ? TextAlignment.Right : TextAlignment.Left,
 					Margin = new Thickness(component.MarginLeft, 0, component.MarginRight, 0),
+					Style = (Style)Application.Current.Resources["EditorTextBox"]
 				};
 				elem.Height = GetLineCount(elem) * lineHeight;
 				currentPageHeight += (int)elem.Height;

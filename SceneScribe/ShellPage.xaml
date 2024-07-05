@@ -29,26 +29,27 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- Nav menu -->
             <StackPanel Orientation="Horizontal"
                         Grid.Row="0" Grid.Column="0">
-                <c:TopMenuButton x:Name="BtnHome" Text="Home" />
-                <c:TopMenuButton x:Name="BtnEditor" Text="Editor" />
-                <c:TopMenuButton x:Name="BtnPublish" Text="Publish" />
+                <c:TopMenuButton x:Name="BtnHome" x:Uid="TopMenuButtonHome" />
+                <c:TopMenuButton x:Name="BtnEditor" x:Uid="TopMenuButtonEditor" />
+                <c:TopMenuButton x:Name="BtnPublish" x:Uid="TopMenuButtonPublish" />
             </StackPanel>
 
-            <!-- Screenplay title -->
-            <TextBlock Text="{x:Bind ViewModel.ActiveScreenplay.Title}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Grid.Row="0" Grid.Column="1" />
+            <!-- Center menu content -->
+            <c:SingleChildPanel x:Name="NavbarCenterContent"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Row="0" Grid.Column="1" />
 
             <!-- Theme toggler -->
-            <Button Content="Theme" Click="ThemeToggle"
+            <Button x:Uid="ButtonThemeToggle"
+                    Click="ThemeToggle"
                     HorizontalAlignment="Right"
                     Grid.Row="0" Grid.Column="2" />
         </Grid>

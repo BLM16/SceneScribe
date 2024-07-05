@@ -20,7 +20,7 @@ public enum ScreenplayComponentType
 /// <summary>
 /// Contains all the information about a component of a screenplay.
 /// </summary>
-[Serializable]
+[XmlType("Component")]
 public class ScreenplayComponent
 {
 	/// <summary>
@@ -33,7 +33,7 @@ public class ScreenplayComponent
 	/// The text content of the component.
 	/// Capitalizes all the text accordingly for the component type on set.
 	/// </summary>
-	[XmlText]
+	[XmlAttribute]
 	public string Text
 	{
 		get => _text;
